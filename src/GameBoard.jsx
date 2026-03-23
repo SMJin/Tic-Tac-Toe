@@ -1,5 +1,4 @@
 import { useState } from "react";
-import BoardButton from "./BoardButton";
 
 const initialGameBoard = [
     [null, null, null],
@@ -7,24 +6,19 @@ const initialGameBoard = [
     [null, null, null],
 ];
 
-export default function GameBoard() {
+export default function GameBoard({ onSelectSqure, activePlayerSymbol }) {
     const [gameBoard, setGameBoard] = useState(initialGameBoard);
-
-    // let trial = 0;
-
-    // const toggleTrial = () => {
-    //     if (trial++ % 2 == 0) return 'O';
-    //     else 'X';
-    // }
 
     const handleSelectSqure = (rowIndex, colIndex) => {
         console.log(rowIndex, colIndex);
         setGameBoard(prev => {
             // const next = prev;   // if you want to change array, use immutable way.
             const next = [...prev.map(innerArray => [...innerArray])];
-            next[rowIndex][colIndex] = 'X';
+            next[rowIndex][colIndex] = activePlayerSymbol;
             return next;
         });
+
+        onSelectSqure();
     }
 
     return <ol id="game-board">
