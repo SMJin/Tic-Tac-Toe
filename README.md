@@ -9,8 +9,6 @@ Vite를 기반으로 개발하였으며, Vercel을 통해 배포되었습니다.
 
 👉 https://tic-tac-toe-livid-xi-85.vercel.app/
 
-(실제 배포된 URL 넣기)
-
 ---
 
 # 📌 프로젝트 소개
