@@ -1,4 +1,5 @@
 import './App.css'
+import GameBoard from './GameBoard'
 
 import Player from './Player'
 
@@ -12,7 +13,7 @@ function App() {
             <Player initialName={`Player 2`} symbol={`O`} />
         </ol>
 
-      GAME BOARD
+      <GameBoard />
       </div>
     </main>
   )

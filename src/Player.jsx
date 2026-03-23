@@ -17,7 +17,12 @@ export default function Player({initialName, symbol}) {
 
     if (isEditing) {
         editablePlayerName = (
-            <input type="text" value={playerName} onChange={handleNameChange} required />
+            <input type="text" 
+                value={playerName} 
+                onChange={handleNameChange} 
+                onKeyDown={(event) => {event.key === 'Enter' && handleEditClick()}}
+                required 
+            />
         );
     }
 
