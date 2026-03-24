@@ -17,7 +17,7 @@ export default function GameBoard({ onSelectSqure, turns }) {
     }
 
     const handleSelectSqure = (rowIndex, colIndex) => {
-        if (gameBoard[rowIndex][colIndex] !== null) return;
+        if (gameBoard[rowIndex][colIndex] !== null) return; // if already clicked, not active.
         
         onSelectSqure(rowIndex, colIndex);
     }
@@ -29,8 +29,9 @@ export default function GameBoard({ onSelectSqure, turns }) {
                 {row.map((playerSymbol, colIndex) => (
                     <li key={colIndex}>
                         <button 
-                            onClick={() => handleSelectSqure(rowIndex, colIndex)} 
+                            onClick={() => handleSelectSqure(rowIndex, colIndex)}
                             // value={gameBoard[rowIndex][colIndex]}
+                            disabled={gameBoard[rowIndex][colIndex] !== null}   // if already clicked, not active.
                             >
                                 {playerSymbol}
                         </button>

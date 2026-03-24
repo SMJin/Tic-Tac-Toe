@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import './App.css'
-import GameBoard from './GameBoard'
+import GameBoard from './components/GameBoard'
 
-import Player from './Player'
-import Log from './Log';
+import Player from './components/Player'
+import Log from './components/Log';
 
 const deriveActivePlayer = (gameTurns) => {
   let currentPlayer = 'X';
