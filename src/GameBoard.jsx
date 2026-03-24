@@ -6,19 +6,20 @@ const initialGameBoard = [
     [null, null, null],
 ];
 
-export default function GameBoard({ onSelectSqure, activePlayerSymbol }) {
-    const [gameBoard, setGameBoard] = useState(initialGameBoard);
+export default function GameBoard({ onSelectSqure, turns }) {
+    let gameBoard = initialGameBoard;
+
+    for (const turn of turns) {
+        const { square, player } = turn;
+        const { row, col } = square;
+
+        gameBoard[row][col] = player;
+    }
 
     const handleSelectSqure = (rowIndex, colIndex) => {
-        console.log(rowIndex, colIndex);
-        setGameBoard(prev => {
-            // const next = prev;   // if you want to change array, use immutable way.
-            const next = [...prev.map(innerArray => [...innerArray])];
-            next[rowIndex][colIndex] = activePlayerSymbol;
-            return next;
-        });
-
-        onSelectSqure();
+        if (gameBoard[rowIndex][colIndex] !== null) return;
+        
+        onSelectSqure(rowIndex, colIndex);
     }
 
     return <ol id="game-board">
