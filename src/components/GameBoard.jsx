@@ -1,23 +1,15 @@
-import { useState } from "react";
+export default function GameBoard({ onSelectSqure, gameBoard }) {
+    // let gameBoard = initialGameBoard;
 
-const initialGameBoard = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-];
+    // for (const turn of turns) {
+    //     const { square, player } = turn;
+    //     const { row, col } = square;
 
-export default function GameBoard({ onSelectSqure, turns }) {
-    let gameBoard = initialGameBoard;
-
-    for (const turn of turns) {
-        const { square, player } = turn;
-        const { row, col } = square;
-
-        gameBoard[row][col] = player;
-    }
+    //     gameBoard[row][col] = player;
+    // }
 
     const handleSelectSqure = (rowIndex, colIndex) => {
-        if (gameBoard[rowIndex][colIndex] !== null) return; // if already clicked, not active.
+        // if (gameBoard[rowIndex][colIndex] !== null) return; // if already clicked, not active.
         
         onSelectSqure(rowIndex, colIndex);
     }
