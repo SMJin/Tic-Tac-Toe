@@ -5,25 +5,30 @@ import GameBoard from './GameBoard'
 import Player from './Player'
 import Log from './Log';
 
+const deriveActivePlayer = (gameTurns) => {
+  let currentPlayer = 'X';
+
+  if (gameTurns.length > 0 && gameTurns[0].player === 'X') {
+    currentPlayer = 'O';
+  }
+
+  return currentPlayer;
+}
+
 function App() {
-  const [activePlayer, setActivePlayer] = useState('X');
   const [gameTurns, setGameTurns] = useState([]);
 
+  let activePlayer = deriveActivePlayer(gameTurns);
+
   const handleSelectSqure = (rowIndex, colIndex) => {
-    setActivePlayer(prev => prev === 'X' ? 'O' : 'X');
     setGameTurns(prev => {
-      let currentPlayer = 'X';
+      // const currentPlayer = deriveActivePlayer(gameTurns);
+      const currentPlayer = activePlayer;
 
-      if (prev.length > 0 && prev[0].player === 'X') {
-        currentPlayer = 'O';
-      }
-
-      console.log("currentPlayer: ", currentPlayer);
-
-      const next = [  // if you want to change array, use immutable way.
+      const next = [
         { square: { row: rowIndex, col: colIndex }, player: currentPlayer },
         ...prev,
-      ];
+      ]
 
       return next;
     });
