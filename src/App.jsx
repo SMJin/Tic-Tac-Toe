@@ -13,6 +13,19 @@ const initialGameBoard = [
     [null, null, null],
 ];
 
+const deriveGameBoard = (gameTurns) => {
+  let gameBoard = [...initialGameBoard.map(array => [...array])];  // have to deep copy.
+
+  for (const turn of gameTurns) {
+      const { square, player } = turn;
+      const { row, col } = square;
+
+      gameBoard[row][col] = player;
+  }
+
+  return gameBoard;
+}
+
 const deriveActivePlayer = (gameTurns) => {
   let currentPlayer = 'X';
 
@@ -59,17 +72,8 @@ function App() {
     })
   }
 
-  let gameBoard = [...initialGameBoard.map(array => [...array])];  // have to deep copy.
-
-  for (const turn of gameTurns) {
-        const { square, player } = turn;
-        const { row, col } = square;
-
-        gameBoard[row][col] = player;
-    }
-
   let activePlayer = deriveActivePlayer(gameTurns);
-
+  let gameBoard = deriveGameBoard(gameTurns);
   let winner = deriveWinner(gameBoard, players);
   let hasDraw = gameTurns.length === 9 && !winner;
 
