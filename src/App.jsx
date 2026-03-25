@@ -27,7 +27,7 @@ function App() {
   const [gameTurns, setGameTurns] = useState([]);
   // const [hasWinner, setHasWinner] = useState(false); // not nessessary.
 
-  let gameBoard = initialGameBoard;
+  let gameBoard = [...initialGameBoard.map(array => [...array])];  // have to deep copy.
 
   for (const turn of gameTurns) {
         const { square, player } = turn;
@@ -40,6 +40,8 @@ function App() {
 
   let winner;
 
+  let hasDraw = gameTurns.length === 9 && !winner
+
   for ( const COMBINATION of WINNING_COMBINATIONS ) {
       const firstSquareSymbol = gameBoard[COMBINATION[0].row][COMBINATION[0].column];
       const secondSquareSymbol = gameBoard[COMBINATION[1].row][COMBINATION[1].column];
@@ -51,6 +53,11 @@ function App() {
       ) {
         winner = firstSquareSymbol;
       }
+  }
+
+  const initGame = () => {
+    setGameTurns([]);
+    // gameBoard = [...initialGameBoard.map(array => [...array])];
   }
 
   const handleSelectSqure = (rowIndex, colIndex) => {
@@ -74,7 +81,7 @@ function App() {
             <Player initialName={`Player 1`} symbol={`X`} isActive={activePlayer === 'X'} />
             <Player initialName={`Player 2`} symbol={`O`} isActive={activePlayer === 'O'} />
         </ol>
-        {winner && <GameOver winner={winner} />}
+        {(winner || hasDraw) && <GameOver winner={winner} initGame={initGame} />}
         <GameBoard onSelectSqure={handleSelectSqure} gameBoard={gameBoard} />
       </div>
     
