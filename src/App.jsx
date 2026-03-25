@@ -23,9 +23,41 @@ const deriveActivePlayer = (gameTurns) => {
   return currentPlayer;
 }
 
+const deriveWinner = (gameBoard, players) => {
+  let winner;
+
+  for ( const COMBINATION of WINNING_COMBINATIONS ) {
+      const firstSquareSymbol = gameBoard[COMBINATION[0].row][COMBINATION[0].column];
+      const secondSquareSymbol = gameBoard[COMBINATION[1].row][COMBINATION[1].column];
+      const thirdSquareSymbol = gameBoard[COMBINATION[2].row][COMBINATION[2].column];
+
+      if (firstSquareSymbol && 
+        firstSquareSymbol === secondSquareSymbol &&
+        firstSquareSymbol === thirdSquareSymbol
+      ) {
+        // winner = firstSquareSymbol;
+        winner = players[firstSquareSymbol];
+      }
+  }
+
+  return winner;
+}
+
 function App() {
+  const [players, setPlayers] = useState({
+    X: 'Player 1',
+    O: 'Player 2',
+  })
   const [gameTurns, setGameTurns] = useState([]);
-  // const [hasWinner, setHasWinner] = useState(false); // not nessessary.
+
+  const handlePlayerNameChange = (symbol, newName) => {
+    setPlayers(prev => {
+      return {
+        ...prev,
+        [symbol]: newName,
+      }
+    })
+  }
 
   let gameBoard = [...initialGameBoard.map(array => [...array])];  // have to deep copy.
 
@@ -38,31 +70,16 @@ function App() {
 
   let activePlayer = deriveActivePlayer(gameTurns);
 
-  let winner;
-
-  let hasDraw = gameTurns.length === 9 && !winner
-
-  for ( const COMBINATION of WINNING_COMBINATIONS ) {
-      const firstSquareSymbol = gameBoard[COMBINATION[0].row][COMBINATION[0].column];
-      const secondSquareSymbol = gameBoard[COMBINATION[1].row][COMBINATION[1].column];
-      const thirdSquareSymbol = gameBoard[COMBINATION[2].row][COMBINATION[2].column];
-
-      if (firstSquareSymbol && 
-        firstSquareSymbol === secondSquareSymbol &&
-        firstSquareSymbol === thirdSquareSymbol
-      ) {
-        winner = firstSquareSymbol;
-      }
-  }
+  let winner = deriveWinner(gameBoard, players);
+  let hasDraw = gameTurns.length === 9 && !winner;
 
   const initGame = () => {
     setGameTurns([]);
-    // gameBoard = [...initialGameBoard.map(array => [...array])];
+    // gameBoard = [...initialGameBoard.map(array => [...array])];  // not nessesary.
   }
 
   const handleSelectSqure = (rowIndex, colIndex) => {
     setGameTurns(prev => {
-      // const currentPlayer = deriveActivePlayer(gameTurns);
       const currentPlayer = activePlayer;
 
       const next = [
@@ -78,8 +95,8 @@ function App() {
     <main>
       <div id='game-container'>
         <ol id='players' className='highlight-player'>
-            <Player initialName={`Player 1`} symbol={`X`} isActive={activePlayer === 'X'} />
-            <Player initialName={`Player 2`} symbol={`O`} isActive={activePlayer === 'O'} />
+            <Player initialName={players.X} onChangeName={handlePlayerNameChange} symbol={`X`} isActive={activePlayer === 'X'} />
+            <Player initialName={players.O} onChangeName={handlePlayerNameChange} symbol={`O`} isActive={activePlayer === 'O'} />
         </ol>
         {(winner || hasDraw) && <GameOver winner={winner} initGame={initGame} />}
         <GameBoard onSelectSqure={handleSelectSqure} gameBoard={gameBoard} />

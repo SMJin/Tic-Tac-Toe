@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-export default function Player({initialName, symbol, isActive}) {
-    const [playerName, setPlayerName] = useState(initialName)
+export default function Player({initialName, onChangeName, symbol, isActive}) {
+    const [playerName, setPlayerName] = useState(initialName);
     const [isEditing, setIsEditing] = useState(false);
 
     const handleNameChange = (event) => {
@@ -11,6 +11,7 @@ export default function Player({initialName, symbol, isActive}) {
     const handleEditClick = () => {
         // setIsEditing(!isEditing) // this not garentee always current value.
         setIsEditing(prev => !prev); // instead, use this case.
+        onChangeName(symbol, playerName);
     }
 
     let editablePlayerName = <span className="player-name">{playerName}</span>;
