@@ -7,14 +7,19 @@ import Log from './components/Log';
 import { WINNING_COMBINATIONS } from './winning-combinations';
 import GameOver from './components/GameOver';
 
-const initialGameBoard = [
+const INITIAL_GAME_BOARD = [
     [null, null, null],
     [null, null, null],
     [null, null, null],
 ];
 
+const PLAYERS = {
+    X: 'Player 1',
+    O: 'Player 2',
+  };
+
 const deriveGameBoard = (gameTurns) => {
-  let gameBoard = [...initialGameBoard.map(array => [...array])];  // have to deep copy.
+  let gameBoard = [...INITIAL_GAME_BOARD.map(array => [...array])];  // have to deep copy.
 
   for (const turn of gameTurns) {
       const { square, player } = turn;
@@ -57,10 +62,7 @@ const deriveWinner = (gameBoard, players) => {
 }
 
 function App() {
-  const [players, setPlayers] = useState({
-    X: 'Player 1',
-    O: 'Player 2',
-  })
+  const [players, setPlayers] = useState(PLAYERS);
   const [gameTurns, setGameTurns] = useState([]);
 
   const handlePlayerNameChange = (symbol, newName) => {
@@ -99,8 +101,8 @@ function App() {
     <main>
       <div id='game-container'>
         <ol id='players' className='highlight-player'>
-            <Player initialName={players.X} onChangeName={handlePlayerNameChange} symbol={`X`} isActive={activePlayer === 'X'} />
-            <Player initialName={players.O} onChangeName={handlePlayerNameChange} symbol={`O`} isActive={activePlayer === 'O'} />
+            <Player initialName={PLAYERS.X} onChangeName={handlePlayerNameChange} symbol={`X`} isActive={activePlayer === 'X'} />
+            <Player initialName={PLAYERS.O} onChangeName={handlePlayerNameChange} symbol={`O`} isActive={activePlayer === 'O'} />
         </ol>
         {(winner || hasDraw) && <GameOver winner={winner} initGame={initGame} />}
         <GameBoard onSelectSqure={handleSelectSqure} gameBoard={gameBoard} />
